@@ -1,0 +1,107 @@
+*******************************************************************************
+* Project: P4 -- MergeSort
+* Class:   CS221-001
+* Date:    5/1/2015
+* Name:    Kevin Haines
+********************************************************************************
+
+OVERVIEW:
+
+This program includes two test drivers. One runs many tests on the static 
+class, MergeSort, which is able to sort, find the smallest element of, and 
+find the largest element of a Double Linked List. The other test driver runs 
+many(over 1000) tests on the double linked list itself For every method in 
+the MergeSort class there is one that extends Comparator and one that passes 
+in a Comparator as a parameter.  The methods that take in a Comparator as a 
+parameter are being tested using the ReverseComparator Class which implements
+Comparator and sorts the elements opposite of natural ordering. The methods 
+that extend Comparator sort by natural ordering.
+
+INCLUDED FILES:
+
+DoubleLinkedList.java
+DoubleLinkedListADT.java
+DoubleLinkedListTester.java
+ElementNotFoundException.java
+EmptyCollectionException.java
+IndexedListADT.java
+LinearNode.java
+ListADT.java
+MergeSort.java
+MergeSortTester.java
+ReverseComparator.java
+UnorderedListADT.java
+README.txt
+
+BUILDING AND RUNNING:
+
+In order to run this program it must first be compiled.  To compile it you must
+navigate to the folder which the program files are in. Then enter the command 
+"javac MergeSortTester.java" and the program will be compiled. 
+
+In order to run the program, enter "java MergeSortTester".
+ 
+
+PROGRAM DESIGN:
+
+The MergeSortTester class uses the printTest method to run many tests using 
+Integer objects and print out their results.  Most tests use other methods to 
+construct a list and then performs some kind of check to verify that the MergeSort
+class is doing what it should be doing.  For example, calling MergeSort.sort(list)
+on the double linked list [1, 3, 2] should result in the list [1, 2, 3].  I 
+created a helper method within the tester method which compares the contents of
+two double linked lists in order to determine if the lists' contents are the same
+and in the same order.  I was able to pass all of my tests.
+
+The ReverseComparator class implements Comparator and extends Comparator. The 
+class simply returns the product of -1 and what the natural ordering comparator
+returns.  This effectively reverses what is considered "small" and "large."  The
+ReverseComparator class can only be used to compare Integer objects.
+
+The MergeSort class is a static class that is able to sort a double linked list
+using the the default natural ordering comparator or using a different Comparator
+taken in as a parameter.  It is also able to determine the smallest and largest
+elements within the given list.  All methods in the MergeSort class use recursion.
+
+The sort algorithm of MergeSort sorts by breaking a list down into smaller parts. First, 
+the list is halved into a left list and a right list, and then those halved lists 
+are halved.  This process repeats until there are no lists with more than one 
+element. The base case for this algorithm is lists that have only one element.The
+first elements of these lists are then compared to each other and the smallest of 
+the two is put into the main list.  This process continues until the left 
+and right lists are empty.  Each fraction of the list is compared to one another 
+and merged together in this manner until there is only one list left--the complete
+list in order. 
+
+The findSmallest and findLargest algorithms in MergeSort operate differently than
+the sort method.  If the list is empty, null is returned, as specified in the javadocs.
+If the list has elements in it a listIterator created from the list's listIterator()
+method. This iterator is passing into a support method (searchSmallest or searchLargest
+depending on the method.) This method checks if the iterator has next.  If it has a next
+then a call to smallest(another support method that return the smallest of two objects)
+is returned that compares the next element returned by the iterator to another call to 
+searchSmallest which passes in the iterator.  When the iterator is passed into searchSmallest
+it has already moved to the next element so that when searchSmallest is called the second time
+the it then compares the element in the list that proceeds that and compares it to
+the next call to search smallest and so on.  
+
+Once the the iterator has no next it skips the hasNext conditional statement and returns 
+previous which at that point is the last element in the list.  It then compares the returned
+element with what lit.next() was when the last searchSmallest was called, which is the last
+element in the list.  The smallest of those two values is returned and then compared to
+what lit.next() was for the previous call to searchSmallest which is the second to last
+element in the list and these comparisons continue all the way back to the first call
+to searchSmallest.  The element returned from the first call to searchSmallest will be the 
+smallest element in the list.
+
+
+PROGRAM DEVELOPMENT AND TESTING DISCUSSION:
+
+Figuring out what was going on in the sort method was difficult for me.  I 
+understood the algorithm and the simple recursion examples, but the sort
+method of MergeSort stretched my brain unlike anything else from any other CS class
+I've taken.  After slowly running through the debugger while writing out a diagram 
+on paper with object ID's written down I was able to figure out what all of the 
+method calls were doing.  The breaking point for me was realizing that the left
+list and right list objects were the same object references as the list object 
+higher up in the call stack.  
