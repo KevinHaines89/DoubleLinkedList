@@ -10,12 +10,14 @@ OVERVIEW:
 This program includes two test drivers. One runs many tests on the static 
 class, MergeSort, which is able to sort, find the smallest element of, and 
 find the largest element of a Double Linked List. The other test driver runs 
-many(over 1000) tests on the double linked list itself For every method in 
+many(over 1000) tests on the double linked list itself. For every method in 
 the MergeSort class there is one that extends Comparator and one that passes 
 in a Comparator as a parameter.  The methods that take in a Comparator as a 
 parameter are being tested using the ReverseComparator Class which implements
 Comparator and sorts the elements opposite of natural ordering. The methods 
 that extend Comparator sort by natural ordering.
+
+
 
 INCLUDED FILES:
 
@@ -31,18 +33,30 @@ MergeSort.java
 MergeSortTester.java
 ReverseComparator.java
 UnorderedListADT.java
+build.xml
 README.txt
 
 BUILDING AND RUNNING:
 
-In order to run this program it must first be compiled.  To compile it you must
-navigate to the folder which the program files are in. Then enter the command 
-"javac MergeSortTester.java" and the program will be compiled. 
-
-In order to run the program, enter "java MergeSortTester".
- 
+In order to run this program simply enter "ant" into bash and the program will
+compile and both MergeSortTester and DoubleLinkedListerTester will run and print
+the test output results. If you wish to run only MergeSortTester enter "ant run-mergesorttester"
+and if you wish to only run DoubleLinkedListTester enter "ant run-doublelltester".
+Also, to clean the program enter "ant clean" or "ant clean-build" to perform a 
+clean followed by a build.
 
 PROGRAM DESIGN:
+
+The Double Linked List uses the LinearNode class to store the elements in the list.
+Each linear node points to a generic reference T as well as the node that follows it 
+and the node that precedes it.  If a node's next or previous value is null that 
+indicates that nothing is next or previous to it. The class also contains a private inner
+class called MyListIterator which implements ListIterator.
+
+The iterator is able to navigate through the list and remembers where it is pointing to.
+The remove and set methods cannot be called unless either the next method or the previous
+method has been called since the last call to remove or set.
+ 
 
 The MergeSortTester class uses the printTest method to run many tests using 
 Integer objects and print out their results.  Most tests use other methods to 
@@ -99,9 +113,8 @@ PROGRAM DEVELOPMENT AND TESTING DISCUSSION:
 
 Figuring out what was going on in the sort method was difficult for me.  I 
 understood the algorithm and the simple recursion examples, but the sort
-method of MergeSort stretched my brain unlike anything else from any other CS class
-I've taken.  After slowly running through the debugger while writing out a diagram 
-on paper with object ID's written down I was able to figure out what all of the 
-method calls were doing.  The breaking point for me was realizing that the left
-list and right list objects were the same object references as the list object 
-higher up in the call stack.  
+method of MergeSort much more difficult. After slowly running through the debugger 
+while writing out a diagram on paper with object ID's written down I was able to 
+figure out what all of the method calls were doing.  The breaking point for me was 
+realizing that the left list and right list objects were the same object references 
+as the list object higher up in the call stack.  

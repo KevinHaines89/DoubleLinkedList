@@ -1,3 +1,4 @@
+package com.doublell;
 /**
  * Represents the situation in which a collection is empty.
  *

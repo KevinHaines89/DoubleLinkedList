@@ -1,0 +1,42 @@
+<project name="MergeSortTester" basedir="." default="main">
+	<property name="src.dir"	value="src"/>
+	<property name="build.dir"	value="build"/>
+	<property name="classes.dir"	value="${build.dir}/classes"/>
+	<property name="jar.dir"	value="${build.dir}/jar"/>
+	<property name="mergesort-tester"	value="com.doublell.MergeSortTester"/>
+	<property name="doublell-tester"	value="com.doublell.DoubleLinkedListTester"/>
+
+
+	<target name="clean">
+		<delete dir="${build.dir}"/>
+	</target>
+
+	<target name="compile">
+		<mkdir dir="${classes.dir}"/>
+		<javac srcdir="${src.dir}" destdir="${classes.dir}"/>
+	</target>
+
+	<target name="jar" depends="compile">
+		<mkdir dir="${jar.dir}"/>
+		<jar destfile="${jar.dir}/MergeSortTester.jar" basedir="${classes.dir}">
+			<manifest>
+				<attribute name="Main-Class" value="${mergesort-tester}"/>
+			</manifest>
+		</jar>
+		<jar destfile="${jar.dir}/DoubleLinkedListTester.jar" basedir="${classes.dir}">
+			<manifest>
+				<attribute name="Main-class" value="${doublell-tester}"/>
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="run-mergesorttester" depends="jar">
+		<java jar="${jar.dir}/MergeSortTester.jar" fork="true"/>
+	</target>
+	
+	<target name="run-doublelltester" depends="jar">
+		<java jar="${jar.dir}/DoubleLinkedListTester.jar" fork="true"/>
+	</target>
+	<target name="clean-build" depends="clean,jar"/>
+	<target name="main" depends="clean,run-mergesorttester,run-doublelltester"/>
+</project>

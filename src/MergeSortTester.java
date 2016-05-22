@@ -1,3 +1,4 @@
+package com.doublell;
 import java.awt.Point;
 import java.util.Random;
 
